@@ -25,30 +25,45 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (data.error) {
-      res.status(401).send('Erreur d\'authentification : ' + data.error_description);
+      res.setHeader('Content-Type', 'text/html');
+      res.status(401).send(`<!DOCTYPE html>
+<html><body>
+  <p>Erreur d'authentification : ${data.error_description || data.error}</p>
+</body></html>`);
       return;
     }
 
     const token = data.access_token;
     const provider = 'github';
 
-    // Decap CMS attend un postMessage avec ce format exact
-    const content = JSON.stringify({ token, provider });
-
     res.setHeader('Content-Type', 'text/html');
     res.send(`<!DOCTYPE html>
 <html>
 <head><title>Connexion réussie</title></head>
 <body>
-  <p>Connexion réussie, fermeture en cours...</p>
+  <p>Connexion réussie !</p>
   <script>
     (function() {
-      var content = ${JSON.stringify(content)};
-      var msg = "authorization:github:success:" + content;
-      if (window.opener) {
-        window.opener.postMessage(msg, window.location.origin);
+      function sendMessage() {
+        var token = ${JSON.stringify(token)};
+        var provider = ${JSON.stringify(provider)};
+        var content = JSON.stringify({ token: token, provider: provider });
+        var msg = "authorization:" + provider + ":success:" + content;
+        var origin = window.location.origin;
+
+        if (window.opener) {
+          window.opener.postMessage(msg, origin);
+          setTimeout(function() { window.close(); }, 500);
+        } else {
+          document.body.innerHTML = "<p>Authentification réussie. Tu peux fermer cette fenêtre et retourner sur l'admin.</p>";
+        }
       }
-      window.close();
+
+      if (document.readyState === "complete") {
+        sendMessage();
+      } else {
+        window.addEventListener("load", sendMessage);
+      }
     })();
   </script>
 </body>

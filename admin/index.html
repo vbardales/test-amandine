@@ -157,6 +157,7 @@
     let token = null;
     let creationsActuelles = [];
     let shaFichierJSON = null;
+    let fichierSelectionne = null;
 
     /* ====== INIT ====== */
     (function init() {
@@ -279,7 +280,7 @@
         const description = document.getElementById('description').value.trim();
         const categorie = document.getElementById('categorie').value;
         const date = document.getElementById('date').value;
-        const fichier = document.getElementById('fichier-image').files[0];
+        const fichier = fichierSelectionne;
 
         if (!fichier) {
           afficherMessage('Choisis une image !', 'erreur');
@@ -321,7 +322,11 @@
 
         afficherMessage('Création publiée ! Le site se met à jour automatiquement.', 'succes');
         document.getElementById('form-creation').reset();
-        document.getElementById('drop-zone').innerHTML = '<p>Clique ici ou dépose ton image</p><input type="file" id="fichier-image" accept="image/*" style="display:none" onchange="previsualiser(this)">';
+        fichierSelectionne = null;
+        const zone = document.getElementById('drop-zone');
+        const img = zone.querySelector('img');
+        if (img) img.remove();
+        zone.querySelector('p').textContent = 'Clique ici ou dépose ton image';
         document.getElementById('date').value = new Date().toISOString().split('T')[0];
 
         await chargerCreations();
@@ -411,10 +416,16 @@
 
     function previsualiser(input) {
       if (!input.files || !input.files[0]) return;
+      fichierSelectionne = input.files[0];
       const reader = new FileReader();
       reader.onload = (e) => {
         const zone = document.getElementById('drop-zone');
-        zone.innerHTML = `<img src="${e.target.result}" alt="Aperçu"><p>Cliquer pour changer</p><input type="file" id="fichier-image" accept="image/*" style="display:none" onchange="previsualiser(this)">`;
+        const img = zone.querySelector('img') || document.createElement('img');
+        img.src = e.target.result;
+        img.alt = 'Aperçu';
+        const texte = zone.querySelector('p');
+        if (texte) texte.textContent = 'Cliquer pour changer';
+        if (!zone.querySelector('img')) zone.prepend(img);
       };
       reader.readAsDataURL(input.files[0]);
     }

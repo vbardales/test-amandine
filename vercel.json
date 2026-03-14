@@ -1,9 +1,9 @@
 {
   "headers": [
     {
-      "source": "/admin/config.yml",
+      "source": "/creations.json",
       "headers": [
-        { "key": "Content-Type", "value": "text/yaml; charset=utf-8" }
+        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
       ]
     },
     {

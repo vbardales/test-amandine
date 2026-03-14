@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
 async function chargerCreations() {
   try {
     const reponse = await fetch('creations.json');
-    const creations = await reponse.json();
+    const donnees = await reponse.json();
+    const creations = donnees.creations || [];
 
     // Trier par date décroissante (les plus récentes en premier)
     creations.sort((a, b) => new Date(b.date) - new Date(a.date));

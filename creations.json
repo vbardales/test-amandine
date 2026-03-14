@@ -1,26 +1,25 @@
-[
-  {
-    "id": 1,
-    "titre": "Fleurs du jardin",
-    "description": "Aquarelle sur papier, inspirée par les fleurs de mon jardin au printemps.",
-    "image": "images/creations/exemple1.jpg",
-    "categorie": "Aquarelle",
-    "date": "2026-03-01"
-  },
-  {
-    "id": 2,
-    "titre": "Portrait au crayon",
-    "description": "Portrait réalisé au crayon graphite sur papier Canson.",
-    "image": "images/creations/exemple2.jpg",
-    "categorie": "Dessin",
-    "date": "2026-03-10"
-  },
-  {
-    "id": 3,
-    "titre": "Paysage d'automne",
-    "description": "Peinture acrylique représentant un paysage de campagne en automne.",
-    "image": "images/creations/exemple3.jpg",
-    "categorie": "Peinture",
-    "date": "2026-02-15"
-  }
-]
+{
+  "creations": [
+    {
+      "titre": "Fleurs du jardin",
+      "description": "Aquarelle sur papier, inspirée par les fleurs de mon jardin au printemps.",
+      "image": "images/creations/exemple1.jpg",
+      "categorie": "Aquarelle",
+      "date": "2026-03-01"
+    },
+    {
+      "titre": "Portrait au crayon",
+      "description": "Portrait réalisé au crayon graphite sur papier Canson.",
+      "image": "images/creations/exemple2.jpg",
+      "categorie": "Dessin",
+      "date": "2026-03-10"
+    },
+    {
+      "titre": "Paysage d'automne",
+      "description": "Peinture acrylique représentant un paysage de campagne en automne.",
+      "image": "images/creations/exemple3.jpg",
+      "categorie": "Peinture",
+      "date": "2026-02-15"
+    }
+  ]
+}

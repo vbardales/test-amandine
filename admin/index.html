@@ -240,7 +240,7 @@
       try {
         const response = await appelGitHub(`/repos/${REPO}/contents/${FICHIER_JSON}?ref=${BRANCH}`);
         shaFichierJSON = response.sha;
-        const contenu = JSON.parse(atob(response.content));
+        const contenu = JSON.parse(decodeBase64UTF8(response.content));
         creationsActuelles = contenu.creations || [];
 
         if (creationsActuelles.length === 0) {
@@ -311,7 +311,7 @@
 
         creationsActuelles.unshift(nouvelleCreation);
 
-        const nouveauContenu = btoa(unescape(encodeURIComponent(JSON.stringify({ creations: creationsActuelles }, null, 2))));
+        const nouveauContenu = encodeBase64UTF8(JSON.stringify({ creations: creationsActuelles }, null, 2));
 
         await appelGitHub(`/repos/${REPO}/contents/${FICHIER_JSON}`, 'PUT', {
           message: `Nouvelle création: ${titre}`,
@@ -359,7 +359,7 @@
 
         // Mettre à jour le JSON
         creationsActuelles.splice(index, 1);
-        const nouveauContenu = btoa(unescape(encodeURIComponent(JSON.stringify({ creations: creationsActuelles }, null, 2))));
+        const nouveauContenu = encodeBase64UTF8(JSON.stringify({ creations: creationsActuelles }, null, 2));
 
         await appelGitHub(`/repos/${REPO}/contents/${FICHIER_JSON}`, 'PUT', {
           message: `Suppression: ${creation.titre}`,
@@ -436,6 +436,20 @@
       el.className = 'message ' + type;
       setTimeout(() => { el.className = 'message'; }, 5000);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function decodeBase64UTF8(base64) {
+      const bytes = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+      return new TextDecoder('utf-8').decode(bytes);
+    }
+
+    function encodeBase64UTF8(str) {
+      const bytes = new TextEncoder().encode(str);
+      let binary = '';
+      for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
     }
 
     function escapeHtml(text) {

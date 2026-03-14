@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO : Titre & Description -->
+  <title>Amandine — Artiste · Dessins, Peintures & Créations</title>
+  <meta name="description" content="Découvrez les créations originales d'Amandine : dessins, aquarelles, peintures et illustrations. Portfolio d'une artiste passionnée.">
+  <meta name="keywords" content="Amandine, artiste, dessin, peinture, aquarelle, illustration, création, portfolio, art">
+  <meta name="author" content="Amandine">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://amandine-art.vercel.app/">
+
+  <!-- Open Graph (Facebook, LinkedIn) -->
+  <meta property="og:title" content="Amandine — Artiste · Dessins, Peintures & Créations">
+  <meta property="og:description" content="Découvrez les créations originales d'Amandine : dessins, aquarelles, peintures et illustrations.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://amandine-art.vercel.app/">
+  <meta property="og:image" content="https://amandine-art.vercel.app/images/og-image.jpg">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Amandine Art">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Amandine — Artiste · Dessins, Peintures & Créations">
+  <meta name="twitter:description" content="Découvrez les créations originales d'Amandine.">
+  <meta name="twitter:image" content="https://amandine-art.vercel.app/images/og-image.jpg">
+
+  <!-- Données structurées Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Amandine",
+    "url": "https://amandine-art.vercel.app",
+    "jobTitle": "Artiste",
+    "description": "Artiste passionnée par le dessin, la peinture et la création.",
+    "sameAs": []
+  }
+  </script>
+
+  <!-- Polices -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ======== HEADER ======== -->
+  <header class="site-header">
+    <nav class="nav-container" aria-label="Navigation principale">
+      <a href="#" class="logo">Amandine<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="#galerie">Créations</a></li>
+        <li><a href="#a-propos">À propos</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="menu-burger" aria-label="Ouvrir le menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ======== HERO ======== -->
+  <section class="hero">
+    <h1>L'univers créatif <span>d'Amandine</span></h1>
+    <p>Artiste passionnée, je donne vie à mes idées à travers le dessin, la peinture et la création. Bienvenue dans mon univers.</p>
+    <a href="#galerie" class="hero-cta">Découvrir mes créations</a>
+  </section>
+
+  <!-- ======== FILTRES ======== -->
+  <div class="filtres" aria-label="Filtrer par catégorie">
+    <!-- Rempli dynamiquement par JavaScript -->
+  </div>
+
+  <!-- ======== GALERIE ======== -->
+  <section id="galerie" class="galerie">
+    <div class="grille">
+      <!-- Rempli dynamiquement par JavaScript depuis creations.json -->
+    </div>
+  </section>
+
+  <!-- ======== LIGHTBOX ======== -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Vue agrandie">
+    <button class="lightbox-fermer" aria-label="Fermer">&times;</button>
+    <div class="lightbox-contenu">
+      <img src="" alt="">
+      <div class="lightbox-info">
+        <h3></h3>
+        <p></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== À PROPOS ======== -->
+  <section id="a-propos" class="a-propos">
+    <div class="a-propos-texte">
+      <h2>À propos <span>d'Amandine</span></h2>
+      <p>
+        Passionnée par le dessin et la création depuis toujours, j'aime explorer différentes techniques
+        — du crayon graphite à l'aquarelle, en passant par la peinture acrylique et les créations manuelles.
+      </p>
+      <p>
+        Chaque œuvre est une invitation à voyager dans mon univers artistique. Je puise mon inspiration
+        dans la nature, les émotions et les petits moments du quotidien.
+      </p>
+      <p>
+        N'hésitez pas à me contacter pour toute question, commande personnalisée ou simplement
+        pour échanger autour de l'art !
+      </p>
+    </div>
+    <div class="a-propos-photo">
+      Photo d'Amandine
+    </div>
+  </section>
+
+  <!-- ======== CONTACT ======== -->
+  <section id="contact" class="contact">
+    <h2>Me contacter</h2>
+    <p>Une question, une envie, une commande ? Écrivez-moi !</p>
+    <form action="https://formspree.io/f/VOTRE_ID" method="POST">
+      <div>
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" name="nom" required placeholder="Votre nom">
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="votre@email.fr">
+      </div>
+      <div>
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required placeholder="Votre message..."></textarea>
+      </div>
+      <button type="submit">Envoyer</button>
+    </form>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="site-footer">
+    <p>&copy; 2026 Amandine — Tous droits réservés</p>
+  </footer>
+
+  <!-- Script -->
+  <script src="js/main.js"></script>
+</body>
+</html>

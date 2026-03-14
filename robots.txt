@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://amandine-art.vercel.app/sitemap.xml

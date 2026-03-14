@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin — Ajouter une création</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #faf8f5;
+      color: #2c2c2c;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .intro { color: #6b6b6b; margin-bottom: 2rem; }
+    .section { background: #fff; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #b8860b; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem; margin-top: 1rem; }
+    label:first-of-type { margin-top: 0; }
+    input, textarea, select {
+      width: 100%; padding: 0.7rem 1rem; border: 1px solid #e8e4df; border-radius: 8px;
+      font-family: inherit; font-size: 1rem; background: #faf8f5;
+    }
+    input:focus, textarea:focus { outline: none; border-color: #b8860b; }
+    textarea { min-height: 80px; resize: vertical; }
+    button {
+      margin-top: 1.5rem; padding: 0.8rem 2rem; background: #b8860b; color: #fff;
+      border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer;
+    }
+    button:hover { background: #daa520; }
+    .resultat {
+      margin-top: 1.5rem; padding: 1rem; background: #f0f7e6; border-radius: 8px;
+      border: 1px solid #c3e6a8; display: none;
+    }
+    .resultat.visible { display: block; }
+    pre {
+      background: #2c2c2c; color: #f0f0f0; padding: 1rem; border-radius: 8px;
+      overflow-x: auto; font-size: 0.85rem; line-height: 1.5; margin-top: 0.5rem;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .copier {
+      margin-top: 0.75rem; padding: 0.5rem 1.2rem; background: #2c2c2c; color: #fff;
+      border: none; border-radius: 50px; font-size: 0.85rem; cursor: pointer;
+    }
+    .copier:hover { background: #444; }
+    .etapes { counter-reset: etape; padding-left: 0; list-style: none; }
+    .etapes li {
+      counter-increment: etape; padding: 0.75rem 0; padding-left: 2.5rem; position: relative;
+      border-bottom: 1px solid #e8e4df;
+    }
+    .etapes li:last-child { border-bottom: none; }
+    .etapes li::before {
+      content: counter(etape);
+      position: absolute; left: 0; top: 0.75rem;
+      width: 28px; height: 28px; background: #b8860b; color: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem;
+    }
+    .conseil { background: #fff8e1; padding: 1rem; border-radius: 8px; border-left: 4px solid #b8860b; margin-top: 1rem; font-size: 0.9rem; }
+    .existant { margin-top: 1.5rem; }
+    .existant h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+    #liste-existante { font-size: 0.9rem; color: #6b6b6b; }
+    #liste-existante li { padding: 0.3rem 0; }
+  </style>
+</head>
+<body>
+
+  <h1>Espace admin d'Amandine</h1>
+  <p class="intro">Cette page t'aide a ajouter de nouvelles créations sur ton site. Remplis le formulaire, puis suis les instructions.</p>
+
+  <!-- Créations existantes -->
+  <div class="section">
+    <h2>Tes créations actuelles</h2>
+    <div id="liste-existante">Chargement...</div>
+  </div>
+
+  <!-- Formulaire d'ajout -->
+  <div class="section">
+    <h2>Ajouter une nouvelle création</h2>
+
+    <label for="titre">Titre de la création</label>
+    <input type="text" id="titre" placeholder="Ex: Bouquet de roses">
+
+    <label for="description">Description</label>
+    <textarea id="description" placeholder="Ex: Aquarelle sur papier, inspirée par mon jardin..."></textarea>
+
+    <label for="categorie">Catégorie</label>
+    <input type="text" id="categorie" list="categories-existantes" placeholder="Ex: Aquarelle, Dessin, Peinture...">
+    <datalist id="categories-existantes"></datalist>
+
+    <label for="image">Nom du fichier image</label>
+    <input type="text" id="image" placeholder="Ex: bouquet-roses.jpg">
+    <div class="conseil">
+      L'image doit être placée dans le dossier <strong>images/creations/</strong>. Pense a la nommer simplement, sans espaces ni accents (utilise des tirets). Ex: <em>bouquet-roses.jpg</em>
+    </div>
+
+    <label for="date">Date</label>
+    <input type="date" id="date">
+
+    <button onclick="genererJSON()">Générer le code</button>
+
+    <div class="resultat" id="resultat">
+      <strong>Voici le bloc à ajouter dans creations.json :</strong>
+      <pre id="code-genere"></pre>
+      <button class="copier" onclick="copier()">Copier le code</button>
+    </div>
+  </div>
+
+  <!-- Guide pas à pas -->
+  <div class="section">
+    <h2>Comment ajouter une création — étape par étape</h2>
+    <ol class="etapes">
+      <li>
+        <strong>Prépare ton image :</strong> Renomme-la simplement (ex: <em>bouquet-roses.jpg</em>), puis place-la dans le dossier <strong>images/creations/</strong>.
+      </li>
+      <li>
+        <strong>Remplis le formulaire</strong> ci-dessus avec le titre, la description, la catégorie, le nom de l'image et la date.
+      </li>
+      <li>
+        <strong>Clique sur "Générer le code"</strong> — un bloc de texte apparaît.
+      </li>
+      <li>
+        <strong>Ouvre le fichier <code>creations.json</code></strong> avec un éditeur de texte (Bloc-notes, par exemple).
+      </li>
+      <li>
+        <strong>Ajoute le bloc généré</strong> juste après le premier <code>[</code> du fichier (au tout début de la liste), suivi d'une virgule.
+      </li>
+      <li>
+        <strong>Enregistre</strong> le fichier. Rafraîchis ton site — ta nouvelle création apparaît !
+      </li>
+    </ol>
+    <div class="conseil">
+      <strong>Astuce :</strong> Si tu utilises un hébergeur comme Netlify ou GitHub Pages, il te suffit de mettre à jour les fichiers pour que le site se mette à jour automatiquement.
+    </div>
+  </div>
+
+  <script>
+    // Charger les créations existantes
+    async function chargerExistantes() {
+      try {
+        const reponse = await fetch('creations.json');
+        const creations = await reponse.json();
+
+        // Afficher la liste
+        const liste = document.getElementById('liste-existante');
+        if (creations.length === 0) {
+          liste.innerHTML = '<p>Aucune création pour le moment.</p>';
+          return;
+        }
+
+        let html = '<ul>';
+        creations.sort((a, b) => new Date(b.date) - new Date(a.date));
+        creations.forEach(c => {
+          const d = new Date(c.date).toLocaleDateString('fr-FR');
+          html += `<li><strong>${c.titre}</strong> — ${c.categorie} (${d})</li>`;
+        });
+        html += '</ul>';
+        liste.innerHTML = html;
+
+        // Remplir les catégories existantes
+        const categories = [...new Set(creations.map(c => c.categorie))];
+        const datalist = document.getElementById('categories-existantes');
+        categories.forEach(cat => {
+          const option = document.createElement('option');
+          option.value = cat;
+          datalist.appendChild(option);
+        });
+
+        // Stocker l'ID max
+        window.maxId = Math.max(...creations.map(c => c.id), 0);
+      } catch (e) {
+        document.getElementById('liste-existante').innerHTML = '<p>Impossible de charger les créations.</p>';
+        window.maxId = 0;
+      }
+    }
+
+    chargerExistantes();
+
+    // Mettre la date du jour par défaut
+    document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+    function genererJSON() {
+      const titre = document.getElementById('titre').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const categorie = document.getElementById('categorie').value.trim();
+      const image = document.getElementById('image').value.trim();
+      const date = document.getElementById('date').value;
+
+      if (!titre || !description || !categorie || !image || !date) {
+        alert('Merci de remplir tous les champs !');
+        return;
+      }
+
+      const nouvelId = (window.maxId || 0) + 1;
+
+      const objet = {
+        id: nouvelId,
+        titre: titre,
+        description: description,
+        image: 'images/creations/' + image,
+        categorie: categorie,
+        date: date
+      };
+
+      const json = JSON.stringify(objet, null, 2);
+      document.getElementById('code-genere').textContent = json;
+      document.getElementById('resultat').classList.add('visible');
+    }
+
+    function copier() {
+      const code = document.getElementById('code-genere').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.querySelector('.copier');
+        btn.textContent = 'Copié !';
+        setTimeout(() => btn.textContent = 'Copier le code', 2000);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -49,10 +49,8 @@ export default async function handler(req, res) {
         var provider = ${JSON.stringify(provider)};
         var content = JSON.stringify({ token: token, provider: provider });
         var msg = "authorization:" + provider + ":success:" + content;
-        var origin = window.location.origin;
-
         if (window.opener) {
-          window.opener.postMessage(msg, origin);
+          window.opener.postMessage(msg, "*");
           setTimeout(function() { window.close(); }, 500);
         } else {
           document.body.innerHTML = "<p>Authentification réussie. Tu peux fermer cette fenêtre et retourner sur l'admin.</p>";
